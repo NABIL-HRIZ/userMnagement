@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use('/auth',authRoutes)
 
-app.use('/usersHome',authRoutes)
+// app.use('/usersHome',authRoutes)
 
 
 app.listen(process.env.PORT, () => {
