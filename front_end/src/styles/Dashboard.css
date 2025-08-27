@@ -26,11 +26,6 @@
   z-index: 100;
 }
 
-.navbar-brand h2 {
-  margin: 0;
-  color: #4361ee;
-}
-
 .navbar-search {
   position: relative;
   display: flex;
@@ -58,28 +53,6 @@
   color: #6c757d;
 }
 
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  color: #6c757d;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: all 0.3s;
-}
-
-.icon-btn:hover {
-  background-color: #f8f9fa;
-  color: #4361ee;
-}
-
 .user-menu {
   display: flex;
   align-items: center;
@@ -97,32 +70,7 @@
   padding: 2rem;
 }
 
-.content-tabs {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #dee2e6;
-}
 
-.tab {
-  padding: 0.75rem 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  color: #6c757d;
-  border-bottom: 3px solid transparent;
-  transition: all 0.3s;
-}
-
-.tab:hover {
-  color: #4361ee;
-}
-
-.tab.active {
-  color: #4361ee;
-  border-bottom-color: #4361ee;
-}
 
 .stats-cards {
   display: grid;
@@ -163,12 +111,15 @@
 }
 
 .stat-icon.admins {
-  background-color: #f72585;
+  background-color:green;
 }
 
-.stat-icon.recent {
-  background-color: #4cc9f0;
+.stat-icon.percentage {
+  background-color:purple;
 }
+
+
+
 
 .stat-info h3 {
   margin: 0 0 0.25rem 0;
@@ -180,6 +131,24 @@
   margin: 0;
   color: #6c757d;
   font-size: 0.9rem;
+}
+
+.chart-section {
+  display: flex;           
+  gap: 1rem;               
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  height: 400px;           
+}
+
+.chart_one,
+.chart_two {
+  flex: 1;                 
+  height: 100%;           
 }
 
 .users-table-container {
@@ -225,7 +194,7 @@
 
 .role-badge.admin {
   background-color: #fff0f7;
-  color: #c2255c;
+  color:green;
 }
 
 .role-badge.user {
@@ -238,7 +207,6 @@
   gap: 0.5rem;
 }
 
-.btn-edit,
 .btn-delete {
   padding: 0.5rem;
   border: none;
@@ -248,14 +216,6 @@
   transition: all 0.3s;
 }
 
-.btn-edit {
-  background-color: #e7f5ff;
-  color: #1971c2;
-}
-
-.btn-edit:hover {
-  background-color: #d0ebff;
-}
 
 .btn-delete {
   background-color: #fff5f5;

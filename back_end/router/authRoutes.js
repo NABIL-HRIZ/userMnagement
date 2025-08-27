@@ -94,7 +94,21 @@ router.get('/dashboard/users', verifyToken, async (req, res) => {
   try {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute(
-      'SELECT id, name, email, role FROM users '
+      'SELECT id, name, email, role FROM users ORDER BY id DESC'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+router.get('/dashboard/users_day', verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    const [rows] = await connection.execute(
+     'SELECT DATE(created_at) AS day,COUNT(*) AS total from users GROUP BY day ORDER BY day '
+     
     );
     res.json(rows);
   } catch (err) {
@@ -107,8 +121,8 @@ router.delete('/dashboard/users/:id', verifyToken, async (req, res) => {
   try {
     const connection = await connectToDatabase();
     await connection.execute(
-      'DELETE FROM users WHERE id = ?',
-      [req.params.id]
+       'DELETE FROM users WHERE id = ? AND role = ?',
+      [req.params.id, 'user']
     );
     res.json({ message: 'User deleted successfully' });
   } catch (err) {

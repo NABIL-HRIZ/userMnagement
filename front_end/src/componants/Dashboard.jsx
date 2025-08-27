@@ -8,20 +8,27 @@ import {
   FaTrash
 } from 'react-icons/fa';
 import { BiLogOutCircle } from 'react-icons/bi';
-
+import { FaPercent } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
+ import swal from 'sweetalert'; 
+import { 
+  BarChart, Bar,LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
 
-  import swal from 'sweetalert'; 
+
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
   const [message, setMessage] = useState("");
   const [stats, setStats] = useState({ totalUsers: 0, totalAdmins: 0 });
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [usersByDay, setUsersByDay] = useState([]);
+
+
 
   const handleLogout = () => {
     localStorage.removeItem("token"); 
@@ -45,6 +52,18 @@ const Dashboard = () => {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setStats(statsResponse.data);
+
+
+        const userCreated = await axios.get(
+  "http://localhost:3000/auth/dashboard/users_day",
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+const formattedData = userCreated.data.map(item => ({
+  day: item.day.split('T')[0],
+  total: item.total
+}));
+
+setUsersByDay(formattedData);
 
         const usersResponse = await axios.get(
           "http://localhost:3000/auth/dashboard/users",
@@ -105,6 +124,15 @@ const Dashboard = () => {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+  const adminRatio = stats.totalUsers
+  ? Math.round((stats.totalAdmins / stats.totalUsers) * 100)
+  : 0;
+
+const chartData = [
+  { category: 'Stats', users: stats.totalUsers, admins: stats.totalAdmins }
+];
+
   if (loading) return <div className="dashboard-loading">Chargement...</div>;
 
   return (
@@ -164,7 +192,58 @@ const Dashboard = () => {
               <p>Total des administrateurs</p>
             </div>
           </div>
+          <div className="stat-card">
+             <div className="stat-icon percentage">
+              <FaPercent />
+            </div>
+  <div className="stat-info">
+    <h3>{adminRatio}%</h3>
+    <p>Taux Admins / Utilisateurs</p>
+    <div className="progress">
+      <div className="progress-bar" style={{ width: `${adminRatio}%`,marginTop:"10px" }} />
+    </div>
+  </div>
+</div>
         </div>
+
+       <div className="chart-section">
+        <div className='chart_one'>
+
+   <ResponsiveContainer width="100%" height={300}>
+  <BarChart data={chartData} barGap={10}>
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="category" />
+    <YAxis />
+    <Tooltip />
+    <Bar dataKey="users" fill="#8884d8" name="Users" />
+    <Bar dataKey="admins" fill="#82ca9d" name="Admins" />
+    <Legend />
+  </BarChart>
+</ResponsiveContainer>
+
+
+        </div>
+        <div className='chart_two'>
+
+            <ResponsiveContainer width="100%" height="100%">
+  <LineChart data={usersByDay}>
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="day" />
+    <YAxis />
+    <Tooltip />
+    <Legend />
+    <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
+  </LineChart>
+</ResponsiveContainer>
+            
+
+        </div>
+
+
+
+        </div>
+
+
 
         <div className="users-table-container">
           <h3>Gestion des utilisateurs</h3>
@@ -190,14 +269,16 @@ const Dashboard = () => {
                         {user.role === 'admin' ? 'Administrateur' : 'Utilisateur'}
                       </span>
                     </td>
-                    <td>
-                      <button 
-                        className="btn-delete"
-                        onClick={() => handleDeleteUser(user.id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </td>
+                  <td>
+  {user.role !== 'admin' && ( 
+    <button 
+      className="btn-delete"
+      onClick={() => handleDeleteUser(user.id)}
+    >
+      <FaTrash />
+    </button>
+  )}
+</td>
                   </tr>
                 ))
               ) : (
