@@ -1,0 +1,237 @@
+.users-home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s ease, color 0.3s ease;
+   font-family: "Oswald", sans-serif;
+    background: linear-gradient(135deg, #FFDBB6, #F7A5A5);
+}
+
+.light-mode {
+  background-image: url('../assets/light-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  color: #333;
+}
+
+.dark-mode {
+  background-image: url('../assets/dark-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  color: #f1f1f1;
+}
+
+.users-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: inherit;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: inherit;
+}
+
+.notification-icon:hover {
+  color: #007bff;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e63946;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+}
+
+.dark-mode-toggle {
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  color: #f39c12;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 500;
+}
+
+.user-profile img {
+  border-radius: 50%;
+  border: 2px solid #007bff;
+}
+
+.notifications-panel {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  z-index: 2000;
+}
+
+.dark-mode .notifications-panel {
+  background: #2c2c3c;
+  color: #f1f1f1;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.notifications-header h3 {
+  font-size: 1rem;
+}
+
+.notifications-header button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.notifications-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 0.7rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.notification-item.unread {
+  background: rgba(0, 123, 255, 0.1);
+  font-weight: 500;
+}
+
+.notification-item.read {
+  background: transparent;
+  opacity: 0.7;
+}
+
+.notification-item:hover {
+  background: rgba(0, 123, 255, 0.15);
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.users-main {
+  flex: 1;
+  padding:2rem;
+  margin-top:100px;
+  text-align: center;
+}
+
+.welcome-section h2 {
+  font-size:3rem;
+  margin-bottom: 0.4rem;
+}
+.welcome-section span{
+  font-size: 5rem;
+  color: rgb(64, 0, 128);
+}
+
+.dark-mode .welcome-section span{
+  color: rgb(215, 166, 215);
+}
+.welcome-section p {
+  opacity: 0.7;
+  font-size:1.8rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-mode .stat-card {
+  background: #2c2c3c;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: #007bff;
+}
+
+.stat-content h3 {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.stat-content p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+
+.logout-btn {
+  font-size: 30px;
+  font-weight: bold;
+   color: #fff;
+  background-color: #e63946; 
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.6);
+}
