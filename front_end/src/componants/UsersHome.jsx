@@ -14,8 +14,7 @@ const UsersHome = () => {
   const [message, setMessage] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [lastConnection, setLastConnection] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [showNotifications, setShowNotifications] = useState(false);
+
  
 
   const handleLogout = () => {
@@ -28,6 +27,7 @@ const UsersHome = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
+
         const response = await axios.get(
           "http://localhost:3000/auth/usersHome",
           { headers: { Authorization: `Bearer ${token}` } }
@@ -38,11 +38,6 @@ const UsersHome = () => {
         setLastConnection(now);
         localStorage.setItem("lastConnection", now);
 
-        setNotifications([
-          { id: 1, text: "Bienvenue sur notre plateforme !", time: "Il y a 2 heures", read: false },
-          { id: 2, text: "Votre profil est complété à 60%", time: "Il y a 1 jour", read: true },
-          { id: 3, text: "Nouvelle fonctionnalité disponible : Mode sombre", time: "Il y a 3 jours", read: true }
-        ]);
       } catch (err) {
         console.error(err);
         setMessage("Accès refusé. Veuillez vous connecter.");
@@ -61,35 +56,13 @@ const UsersHome = () => {
     }
   }, []);
 
-  const handleNotificationClick = (id) => {
-    const updatedNotifications = notifications.map((notification) =>
-      notification.id === id ? { ...notification, read: true } : notification
-    );
-    setNotifications(updatedNotifications);
-  };
-
-  const markAllAsRead = () => {
-    const updatedNotifications = notifications.map((notification) => ({
-      ...notification,
-      read: true,
-    }));
-    setNotifications(updatedNotifications);
-  };
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <div className={`users-home-container ${darkMode ? "dark-mode" : "light-mode"}`}>
       <header className="users-header">
         <div className="header-right">
           
-          <div
-            className={`notification-icon ${unreadCount > 0 ? "has-notifications" : ""}`}
-            onClick={() => setShowNotifications(!showNotifications)}
-          >
-            <FaBell />
-            {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
-          </div>
+
 
           
           <div className="dark-mode-toggle" onClick={() => setDarkMode(!darkMode)}>
@@ -120,35 +93,11 @@ const UsersHome = () => {
       </header>
 
       
-      {showNotifications && (
-        <div className="notifications-panel">
-          <div className="notifications-header">
-            <h3>Notifications</h3>
-            <button onClick={markAllAsRead}>Tout marquer comme lu</button>
-          </div>
-          <div className="notifications-list">
-            {notifications.length > 0 ? (
-              notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`notification-item ${notification.read ? "read" : "unread"}`}
-                  onClick={() => handleNotificationClick(notification.id)}
-                >
-                  <p>{notification.text}</p>
-                  <span className="notification-time">{notification.time}</span>
-                </div>
-              ))
-            ) : (
-              <p className="no-notifications">Aucune notification</p>
-            )}
-          </div>
-        </div>
-      )}
 
-     
+
       <main className="users-main">
         <div className="welcome-section">
-          <h2>Bon retour, <span>{message}</span> !</h2>
+          <h2>Bon retour, <span>{message}</span> </h2>
           <p>Voici un aperçu de votre compte aujourd'hui.</p>
         </div>
 

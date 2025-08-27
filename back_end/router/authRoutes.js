@@ -50,12 +50,12 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, name: user.name }, 
+      { id: user.id, name: user.name , role: user.role }, 
       process.env.JWT_SECRET || "secretkey",  
       { expiresIn: "1h" }  
     );
 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful", token,role:user.role });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong" });
@@ -66,4 +66,54 @@ router.get("/usersHome", verifyToken, (req, res) => {
   res.json({ message: `${req.user.name}` });
 });
 
+router.get("/Dashboard", verifyToken, (req, res) => {
+  res.json({ message: `${req.user.name}` });
+});
+
+router.get('/dashboard/stats', verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    
+    const [userRows] = await connection.execute('SELECT COUNT(*) as count FROM users');
+    const totalUsers = userRows[0].count;
+    
+   
+    const [adminRows] = await connection.execute('SELECT COUNT(*) as count FROM users WHERE role = "admin"');
+    const totalAdmins = adminRows[0].count;
+    
+    
+    
+    res.json({ totalUsers, totalAdmins});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+router.get('/dashboard/users', verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    const [rows] = await connection.execute(
+      'SELECT id, name, email, role FROM users '
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+router.delete('/dashboard/users/:id', verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    await connection.execute(
+      'DELETE FROM users WHERE id = ?',
+      [req.params.id]
+    );
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
 export default router;

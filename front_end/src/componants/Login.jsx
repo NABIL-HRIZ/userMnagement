@@ -34,7 +34,14 @@ const Login = () => {
         autoClose: 3000,
         theme: "light",
         transition: Bounce,
-        onClose: () => navigate("/usersHome")
+        onClose: () => {
+        if(response.data.role==="user")
+          navigate("/usersHome")
+        else{
+         navigate('/dashboard')
+        }
+        }
+         
       });
 
     
@@ -49,8 +56,10 @@ const Login = () => {
     } 
   };
 
+
   return (
     <section className="login-section">
+      
       <div className="login-container">
         <div className="brand-side">
         </div>
