@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get("/usersHome", verifyToken, (req, res) => {
-  res.json({ message: `Welcome ${req.user.name} to your home page!` });
+  res.json({ message: `${req.user.name}` });
 });
 
 export default router;
