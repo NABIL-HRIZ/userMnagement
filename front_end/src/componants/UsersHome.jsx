@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaBell, FaClock, FaMoon, FaSun, FaUser, FaEnvelope, FaCalendar} from "react-icons/fa";
+import { FaClock, FaMoon, FaSun,FaEnvelope, FaCalendar,FaUsers} from "react-icons/fa";
+
 import { BiLogOutCircle } from 'react-icons/bi';
 import "../styles/UsersHome.css";
 import { useNavigate } from "react-router-dom";
 
-import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const UsersHome = () => {
   const navigate=useNavigate()
 
   const [message, setMessage] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [lastConnection, setLastConnection] = useState("");
+  const [CreatedDate,setCreatedDate]=useState("")
 
  
 
@@ -38,6 +39,9 @@ const UsersHome = () => {
         setLastConnection(now);
         localStorage.setItem("lastConnection", now);
 
+        const start=response.data.created_at
+        setCreatedDate(start)
+
       } catch (err) {
         console.error(err);
         setMessage("Accès refusé. Veuillez vous connecter.");
@@ -60,6 +64,9 @@ const UsersHome = () => {
   return (
     <div className={`users-home-container ${darkMode ? "dark-mode" : "light-mode"}`}>
       <header className="users-header">
+        <div className="logo">
+          <h3>User <FaUsers />  Infos</h3>
+        </div>
         <div className="header-right">
           
 
@@ -103,25 +110,25 @@ const UsersHome = () => {
 
        
         <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">
-              <FaEnvelope />
-            </div>
-            <div className="stat-content">
-              <h3>Messages</h3>
-              <p>12 non lus</p>
-            </div>
-          </div>
+
+  <div className="stat-card">
+  <div className="stat-icon"><FaEnvelope /></div>
+  <div className="stat-content">
+    <h3>Notifications</h3>
+    <p>5 non lues</p>
+  </div>
+</div>
+
 
           <div className="stat-card">
-            <div className="stat-icon">
-              <FaUser />
-            </div>
-            <div className="stat-content">
-              <h3>Progression du profil</h3>
-              <p>60% complété</p>
-            </div>
-          </div>
+  <div className="stat-icon">
+    <FaCalendar />
+  </div>
+  <div className="stat-content">
+    <h3>Date de création</h3>
+    <p>{CreatedDate}</p>
+  </div>
+</div>
 
           <div className="stat-card">
             <div className="stat-icon">
@@ -133,15 +140,6 @@ const UsersHome = () => {
             </div>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-icon">
-              <FaCalendar />
-            </div>
-            <div className="stat-content">
-              <h3>Événements à venir</h3>
-              <p>2 événements cette semaine</p>
-            </div>
-          </div>
         </div>
       </main>
     </div>

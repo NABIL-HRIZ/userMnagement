@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Beams from "./Beams";
 
 const Register = () => {
 
@@ -59,6 +60,18 @@ const Register = () => {
 
   return (
     <section id='register-section'>
+            <div className="beams-bg" aria-hidden="true">
+  <Beams
+    beamWidth={2}
+    beamHeight={15}
+    beamNumber={12}
+    lightColor="#ffffff"
+    speed={2}
+    noiseIntensity={1.75}
+    scale={0.2}
+    rotation={0}
+  />
+</div>
       <div id="register-container">
         <div id="form-side">
           <h2>Inscription</h2>

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Beams from "./Beams";
 const Login = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({ email:"", password: "" });
@@ -31,7 +31,7 @@ const Login = () => {
 
       toast.success("Connexion réussie !", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose:2000,
         theme: "light",
         transition: Bounce,
         onClose: () => {
@@ -59,6 +59,19 @@ const Login = () => {
 
   return (
     <section className="login-section">
+
+      <div className="beams-bg" aria-hidden="true">
+  <Beams
+    beamWidth={2}
+    beamHeight={15}
+    beamNumber={12}
+    lightColor="#ffffff"
+    speed={2}
+    noiseIntensity={1.75}
+    scale={0.2}
+    rotation={0}
+  />
+</div>
       
       <div className="login-container">
         <div className="brand-side">
@@ -99,12 +112,6 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="remember-forgot">
-              <div className="remember">
-                <input type="checkbox" id="remember" />
-                <label htmlFor="remember">Se souvenir de moi</label>
-              </div>
-            </div>
 
             <button type="submit" className="login-btn">
              Connexion

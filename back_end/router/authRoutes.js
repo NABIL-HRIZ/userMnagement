@@ -62,9 +62,29 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get("/usersHome", verifyToken, (req, res) => {
-  res.json({ message: `${req.user.name}` });
+router.get("/usersHome", verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    const [rows] = await connection.execute(
+      'SELECT id, name, email, role, created_at FROM users WHERE id = ?',
+      [req.user.id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    const user = rows[0];
+    res.json({
+      message: user.name,
+      created_at: new Date(user.created_at).toLocaleDateString("fr-FR")
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
 });
+
 
 router.get("/Dashboard", verifyToken, (req, res) => {
   res.json({ message: `${req.user.name}` });
@@ -108,6 +128,20 @@ router.get('/dashboard/users_day', verifyToken, async (req, res) => {
     const connection = await connectToDatabase();
     const [rows] = await connection.execute(
      'SELECT DATE(created_at) AS day,COUNT(*) AS total from users GROUP BY day ORDER BY day '
+     
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+router.get('/dashboard/last_3_users', verifyToken, async (req, res) => {
+  try {
+    const connection = await connectToDatabase();
+    const [rows] = await connection.execute(
+     'SELECT  id, name, email, role FROM users WHERE role="user" ORDER BY created_at DESC LIMIT 3'
      
     );
     res.json(rows);

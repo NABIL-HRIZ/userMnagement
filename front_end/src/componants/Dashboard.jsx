@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [usersByDay, setUsersByDay] = useState([]);
+  const [lastUsers,setLastUsers]=useState([])
 
 
 
@@ -71,6 +72,12 @@ setUsersByDay(formattedData);
         );
         setUsers(usersResponse.data);
 
+          const lastUser = await axios.get(
+          "http://localhost:3000/auth/dashboard/last_3_users",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setLastUsers(lastUser.data);
+
         setLoading(false);
 
       } catch (err) {
@@ -86,7 +93,7 @@ setUsersByDay(formattedData);
   const handleDeleteUser = async (userId) => {
     swal({
       title: "Êtes-vous sûr ?",
-      text: "Une fois supprimé, vous ne pourrez pas récupérer cet utilisateur !",
+      text: "Vous ne pourrez pas récupérer cet utilisateur !",
       icon: "warning",
       buttons: ["Annuler", "Supprimer"],
       dangerMode: true,
@@ -114,7 +121,7 @@ setUsersByDay(formattedData);
           swal("Échec de la suppression de l'utilisateur", { icon: "error" });
         }
       } else {
-        swal("L'utilisateur est en sécurité !");
+        swal("L'utilisateur toujours encore  !",{icon:"info"});
       }
     });
   };
@@ -204,11 +211,55 @@ const chartData = [
     </div>
   </div>
 </div>
+
         </div>
+
+      
+        <div className='last-3_users'>
+  <div className="users-card">
+    <div className="users-card-content">
+      <div className="users-card-icon">
+        <FaUsers />
+      </div>
+      <div className="stat-info">
+        <h3>Les 3 dernieres utilisateurs</h3>
+        <div className='last-users'>
+          <table className="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lastUsers.length > 0 ? (
+                lastUsers.map(user => (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="no-data">
+                    Aucun utilisateur trouvé
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
        <div className="chart-section">
         <div className='chart_one'>
-
+<h3 className="chart-title" style={{fontSize:'18px',color:'gray',marginLeft:"250px"}}>Nombre d'utilisateurs et d'administrateurs</h3>
    <ResponsiveContainer width="100%" height={300}>
   <BarChart data={chartData} barGap={10}>
     <CartesianGrid strokeDasharray="3 3" />
@@ -224,6 +275,7 @@ const chartData = [
 
         </div>
         <div className='chart_two'>
+<h3 className="chart-title" style={{fontSize:'18px',color:'gray',marginLeft:"250px"}}>Utilisateurs par jour</h3>
 
             <ResponsiveContainer width="100%" height="100%">
   <LineChart data={usersByDay}>
