@@ -6,7 +6,7 @@ import Register from './componants/Register';
 import UsersHome from './componants/UsersHome';
 import Dashboard from './componants/Dashboard';
 import CircularText from './componants/CircularText';
-
+import './i18n';
 const App = () => {
   const [showIntro, setShowIntro] = useState(false);
 

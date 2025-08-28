@@ -73,6 +73,8 @@
 .dashboard-content {
   padding: 2rem;
   font-family: "Oswald", sans-serif;
+    margin-top:50px;
+
 
 }
 
@@ -236,25 +238,14 @@
   font-size: 0.9rem;
 }
 
-.users-table th,
-.users-table td {
-  padding: 0.75rem 1rem;
-}
 
-.users-table th {
-  background-color: #6c63ff;
+
+.users-table tr th {
+  background-color: rgb(44, 7, 104);
   color: #fff;
-  font-weight: 600;
 }
 
-.users-table tr {
-  border-bottom: 1px solid #eee;
-  transition: background 0.3s;
-}
 
-.users-table tr:hover {
-  background-color: #f1f2ff;
-}
 
 .no-data {
   text-align: center;
@@ -380,28 +371,85 @@
   box-shadow: 0 4px 12px rgba(230, 57, 70, 0.6);
 }
 
+.chart-title{
+  font-size:25px;
+  color: gray;
+}
 
 @media (max-width: 768px) {
-  .dashboard-navbar {
+  .navbar-search {
+    width:70%;
+    margin-right:100px;
+  }
+
+  .user-menu {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: row;
+    padding: 1rem;
+  }
+
+  .last-3_users {
     flex-direction: column;
     padding: 1rem;
     gap: 1rem;
   }
-  
-  .navbar-search {
+  .users-card-content{
+    flex-direction: column;
+  }
+  .last-3_users .users-table{
+   
+      display: block;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+
+  .users-card {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .users-card-icon {
+    font-size: 50px;
     width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
   }
-  
-  .stats-cards {
-    grid-template-columns: 1fr;
+
+  .chart-section {
+    flex-direction: column;
+    height:700px;
   }
-  
+
+  .chart_one,
+  .chart_two {
+    height:100%;
+  }
+
   .users-table {
     display: block;
     overflow-x: auto;
+    font-size: 0.85rem;
   }
-  
-  .dashboard-content {
-    padding: 1rem;
+
+  .users-table th,
+  .users-table td {
+    padding: 0.5rem;
+  }
+
+  .logout-btn {
+    font-size: 24px;
+    padding: 4px;
   }
 }
+
+
+
+

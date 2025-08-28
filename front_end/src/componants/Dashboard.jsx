@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import logo from '../assets/logo.jpeg'
 import { 
   FaUsers, 
@@ -7,6 +11,7 @@ import {
   FaSearch, 
   FaTrash
 } from 'react-icons/fa';
+import { SiAdminer } from 'react-icons/si';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { FaPercent } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -144,12 +149,23 @@ const chartData = [
 
   return (
     <div className="dashboard-container">
-      <nav className="dashboard-navbar">
-        <div className="navbar-brand">
-         <img src={logo} style={{width:"150px"}} />
-        </div>
-        
-        <div className="navbar-search">
+
+      
+       <Navbar expand="lg" className={'px-3 fixed-top bg-body-tertiary'}>
+        <Container fluid className="d-flex justify-content-between align-items-center">
+      
+      
+          <Navbar.Brand className="d-flex align-items-center gap-2 logo">
+            <h3 style={{color:'#4e074eff'}}>USER MANAGEMENT <SiAdminer style={{fontSize:"25px"}} /></h3>
+          </Navbar.Brand>
+      
+      
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto d-flex align-items-center gap-3">
+      
+                <div className="navbar-search">
           <FaSearch className="search-icon" />
           <input 
             type="text" 
@@ -158,8 +174,8 @@ const chartData = [
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
-        <div className="navbar-actions">
+
+         <div className="navbar-actions">
           <div className="user-menu">
             <img 
               src={`https://ui-avatars.com/api/?name=${message}&background=random`} 
@@ -176,7 +192,23 @@ const chartData = [
             </div>
           </div>
         </div>
-      </nav>
+
+      
+             
+      
+             
+      
+             
+      
+              
+      
+             
+              
+            </Nav>
+          </Navbar.Collapse>
+      
+        </Container>
+          </Navbar>
 
       <div className="dashboard-content">
         <div className="stats-cards">
@@ -205,9 +237,9 @@ const chartData = [
             </div>
   <div className="stat-info">
     <h3>{adminRatio}%</h3>
-    <p>Taux Admins / Utilisateurs</p>
+    <p style={{marginBottom:"10px"}}>Taux Admins / Utilisateurs</p>
     <div className="progress">
-      <div className="progress-bar" style={{ width: `${adminRatio}%`,marginTop:"10px" }} />
+      <div className="progress-bar" style={{ width: `${adminRatio}%`}} />
     </div>
   </div>
 </div>
@@ -259,7 +291,7 @@ const chartData = [
 
        <div className="chart-section">
         <div className='chart_one'>
-<h3 className="chart-title" style={{fontSize:'18px',color:'gray',marginLeft:"250px"}}>Nombre d'utilisateurs et d'administrateurs</h3>
+<h3 className="chart-title">Nombre d'utilisateurs et d'administrateurs</h3>
    <ResponsiveContainer width="100%" height={300}>
   <BarChart data={chartData} barGap={10}>
     <CartesianGrid strokeDasharray="3 3" />
@@ -275,7 +307,7 @@ const chartData = [
 
         </div>
         <div className='chart_two'>
-<h3 className="chart-title" style={{fontSize:'18px',color:'gray',marginLeft:"250px"}}>Utilisateurs par jour</h3>
+<h3 className="chart-title">Utilisateurs par jour</h3>
 
             <ResponsiveContainer width="100%" height="100%">
   <LineChart data={usersByDay}>

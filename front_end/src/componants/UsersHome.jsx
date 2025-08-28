@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaClock, FaMoon, FaSun,FaEnvelope, FaCalendar,FaUsers} from "react-icons/fa";
-
 import { BiLogOutCircle } from 'react-icons/bi';
 import "../styles/UsersHome.css";
 import { useNavigate } from "react-router-dom";
 
-import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
+
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 const UsersHome = () => {
-  const navigate=useNavigate()
+
+const { t, i18n } = useTranslation();
+  
+const navigate=useNavigate()
 
   const [message, setMessage] = useState("");
   const [darkMode, setDarkMode] = useState(true);
@@ -63,49 +69,62 @@ const UsersHome = () => {
 
   return (
     <div className={`users-home-container ${darkMode ? "dark-mode" : "light-mode"}`}>
-      <header className="users-header">
-        <div className="logo">
-          <h3>User <FaUsers />  Infos</h3>
+
+
+      <Navbar expand="lg" className={`px-3 ${darkMode ? "bg-dark" : "bg-light"}`} variant={darkMode ? "dark" : "light"}>
+  <Container fluid className="d-flex justify-content-between align-items-center">
+
+
+    <Navbar.Brand className="d-flex align-items-center gap-2 logo">
+      <FaUsers /> {t('logo')}
+    </Navbar.Brand>
+
+
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="ms-auto d-flex align-items-center gap-3">
+
+
+        <div className="traduction">
+          <select
+            value={i18n.language}
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+            className="lang-select"
+          >
+            <option value="fr">Français (FR)</option>
+            <option value="en">English (EN)</option>
+          </select>
         </div>
-        <div className="header-right">
-          
 
+       
 
-          
-          <div className="dark-mode-toggle" onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </div>
+        <div className="user-profile d-flex align-items-center gap-2">
+          <img
+            src={`https://ui-avatars.com/api/?name=${message}&background=random&size=32`}
+            alt="avatar utilisateur"
+          />
+          <span>{message}</span>
+        </div>
 
-         
-          <div className="user-profile">
-            <img
-              src={`https://ui-avatars.com/api/?name=${message}&background=random&size=32`}
-              alt="avatar utilisateur"
-            />
-            <span>{message}</span>
-          </div>
+         <div className="dark-mode-toggle" onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? <FaSun /> : <FaMoon />}
+        </div>
 
-
-          <div className="logout">
-
-<div className="logout">
-  <BiLogOutCircle
-    onClick={handleLogout}
-    className="logout-btn"
-  />
-</div>
+        <BiLogOutCircle onClick={handleLogout} className="logout-btn" />
         
-          </div>
-        </div>
-      </header>
+      </Nav>
+    </Navbar.Collapse>
 
-      
+  </Container>
+    </Navbar>
 
 
+    
       <main className="users-main">
         <div className="welcome-section">
-          <h2>Bon retour, <span>{message}</span> </h2>
-          <p>Voici un aperçu de votre compte aujourd'hui.</p>
+          <h2>{t('welcome')}, <span>{message}</span> </h2>
+          <p>{t('overview')}</p>
         </div>
 
        
@@ -114,8 +133,8 @@ const UsersHome = () => {
   <div className="stat-card">
   <div className="stat-icon"><FaEnvelope /></div>
   <div className="stat-content">
-    <h3>Notifications</h3>
-    <p>5 non lues</p>
+    <h3>{t('notifications')}</h3>
+    <p>{t('unread')}</p>
   </div>
 </div>
 
@@ -125,7 +144,7 @@ const UsersHome = () => {
     <FaCalendar />
   </div>
   <div className="stat-content">
-    <h3>Date de création</h3>
+    <h3>{t('created_date')}</h3>
     <p>{CreatedDate}</p>
   </div>
 </div>
@@ -135,7 +154,7 @@ const UsersHome = () => {
               <FaClock />
             </div>
             <div className="stat-content">
-              <h3>Dernière connexion</h3>
+              <h3>{t('last_connection')}</h3>
               <p>{lastConnection}</p>
             </div>
           </div>
