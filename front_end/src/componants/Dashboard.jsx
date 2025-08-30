@@ -36,6 +36,7 @@ const Dashboard = () => {
 
 
 
+
   const handleLogout = () => {
     localStorage.removeItem("token"); 
     localStorage.removeItem("lastConnection");
@@ -331,7 +332,7 @@ const chartData = [
 
         <div className="users-table-container">
           <h3>Gestion des utilisateurs</h3>
-          <table className="users-table">
+          <table className="users-table" >
             <thead>
               <tr>
                 <th>ID</th>

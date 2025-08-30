@@ -73,6 +73,7 @@ const Register = () => {
   />
 </div>
       <div id="register-container">
+        
         <div id="form-side">
           <h2>Inscription</h2>
           <p>Créez votre compte pour commencer</p>
@@ -134,23 +135,11 @@ const Register = () => {
                   />
                 </div>
               </div>
-              <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-                <label htmlFor="roles">Rôle</label>
-                <div className="input-with-icon role-select">
-                  <i className="fas fa-users"></i>
-                  <select
-                    className="roles"
-                    name='role'
-                    value={values.role}
-                    onChange={handleChange}
-                  >
-                    <option value="user">Utilisateur</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </div>
-              </div>
+             
             </div>
-            <button type="submit" id="register-btn">S'inscrire</button>
+           <button id='register-btn' className='button'> S'incrire
+  <span></span>
+</button>
           </form>
           <div id="signup-link">
             Déjà un compte ? <Link to='/login'>Connectez-vous</Link>

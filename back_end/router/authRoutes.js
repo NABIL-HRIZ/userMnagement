@@ -3,6 +3,7 @@ import { connectToDatabase } from '../lib/db.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { verifyToken } from '../middlewares/auth.js';
+import passport from 'passport';
 
 
 const router = express.Router();
@@ -51,7 +52,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, name: user.name , role: user.role }, 
-      process.env.JWT_SECRET || "secretkey",  
+      process.env.JWT_SECRET,  
       { expiresIn: "1h" }  
     );
 
@@ -84,7 +85,6 @@ router.get("/usersHome", verifyToken, async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
-
 
 router.get("/Dashboard", verifyToken, (req, res) => {
   res.json({ message: `${req.user.name}` });
@@ -164,4 +164,51 @@ router.delete('/dashboard/users/:id', verifyToken, async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.get("/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  async (req, res) => {
+    try {
+      const profile = req.user;
+      const connection = await connectToDatabase();
+
+      const [rows] = await connection.execute(
+        "SELECT * FROM users WHERE email = ?",
+        [profile.emails[0].value]
+      );
+      let user;
+      if (rows.length === 0) {
+
+        const [result] = await connection.execute(
+          "INSERT INTO users (name, email, role) VALUES (?, ?, ?)",
+          [profile.displayName, profile.emails[0].value, "user"]
+        );
+        user = { id: result.insertId, name: profile.displayName, role: "user" };
+      } else {
+        user = rows[0];
+      }
+
+      const token = jwt.sign(
+        { id: user.id, name: user.name, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
+      res.redirect(`http://localhost:5173/UsersHome?token=${token}`);
+    } catch (err) {
+      console.error(err);
+      res.redirect("/login");
+    }
+  }
+);
+
+
+router.get("/logout", (req, res) => {
+  req.logout(() => {
+    res.redirect("/");
+  });
+});
+
 export default router;

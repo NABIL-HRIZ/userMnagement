@@ -5,6 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Beams from "./Beams";
+import { FcGoogle } from "react-icons/fc"; 
 const Login = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({ email:"", password: "" });
@@ -113,9 +114,18 @@ const Login = () => {
             </div>
 
 
-            <button type="submit" className="login-btn">
-             Connexion
+            <button type="submit" className="button"> Connexion
+            <span></span>
             </button>
+
+
+ <a
+      href="http://localhost:3000/auth/google"
+      className="google-login-btn"
+    >
+      <FcGoogle size={24} className="google-icon" />
+      <span>Se connecter avec Google</span>
+    </a>
           </form>
 
           <div className="signup-link">

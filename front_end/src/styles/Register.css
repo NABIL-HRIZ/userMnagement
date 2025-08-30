@@ -1,29 +1,4 @@
-.role-select select {
-    background: #f7f7fa;
-    border: 1.5px solid #bfc9d9;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: #333;
-    padding-left: 38px;
-    padding-right: 24px;
-    height: 40px;
-    width: 100%;   
-    cursor: pointer;
-    transition: border 0.2s, box-shadow 0.2s;
-}
-.role-select select:focus {
-    border-color: #6c5ce7;
-    outline: none;
-    background: #fff;
-    box-shadow: 0 0 0 2px #e0e7ff;
-}
-.role-select select option {
-    background: #f7f7fa;
-    color: #5D688A;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 8px 12px;
-}
+
 
 #register-section {
   position: relative;
@@ -38,7 +13,7 @@
 #register-container{
   position: relative;
   z-index: 2; 
-  width:600px;
+  width:800px;
   max-width: 95%;
   background: rgba(93, 93, 93, 0.591);
   backdrop-filter: blur(8px); 
@@ -122,26 +97,10 @@
             outline: none;
         }
         
-        
-        #register-btn {
-            background-color: #ab0f89;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width:70%;
-            margin-bottom: 20px;
-            margin-left:80px;
-        }
-        
-        #register-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
+       #register-btn{
+        left:36%;
+        margin-bottom: 20px;
+       }
         
      
         #signup-link {
@@ -150,7 +109,7 @@
         }
         
         #signup-link a {
-            color: #b4b0ed;
+           color: #ca96bc;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
@@ -186,7 +145,7 @@
                 padding: 30px 20px;
             }
              #register-btn {
-    width: 100%; 
-    margin-left: 0;
+    width:60%; 
+    left:20%;
   }
         }

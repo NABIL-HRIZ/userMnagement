@@ -30,41 +30,54 @@ const navigate=useNavigate()
     navigate("/login"); 
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
+ useEffect(() => {
+  const fetchTokenAndData = async () => {
 
-        const response = await axios.get(
-          "http://localhost:3000/auth/usersHome",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setMessage(response.data.message);
+    const params = new URLSearchParams(window.location.search);
+    const urlToken = params.get("token");
 
-        const now = new Date().toLocaleString("fr-FR");
-        setLastConnection(now);
-        localStorage.setItem("lastConnection", now);
+    if (urlToken) {
+      localStorage.setItem("token", urlToken);
 
-        const start=response.data.created_at
-        setCreatedDate(start)
-
-      } catch (err) {
-        console.error(err);
-        setMessage("Accès refusé. Veuillez vous connecter.");
-      }
-    };
-
-    fetchData();
-
-    const savedConnection = localStorage.getItem("lastConnection");
-    if (savedConnection) {
-      setLastConnection(savedConnection);
+      window.history.replaceState({}, document.title, "/UsersHome");
     }
 
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setDarkMode(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("Accès refusé. Veuillez vous connecter.");
+      return;
     }
-  }, []);
+
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/auth/usersHome",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setMessage(response.data.message);
+
+      const now = new Date().toLocaleString("fr-FR");
+      setLastConnection(now);
+      localStorage.setItem("lastConnection", now);
+
+      setCreatedDate(response.data.created_at);
+
+    } catch (err) {
+      console.error(err);
+      setMessage("Accès refusé. Veuillez vous connecter.");
+    }
+  };
+
+  fetchTokenAndData();
+
+  const savedConnection = localStorage.getItem("lastConnection");
+  if (savedConnection) setLastConnection(savedConnection);
+
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    setDarkMode(true);
+  }
+}, []);
+
 
 
   return (
@@ -112,6 +125,11 @@ const navigate=useNavigate()
         </div>
 
         <BiLogOutCircle onClick={handleLogout} className="logout-btn" />
+
+     
+
+
+
         
       </Nav>
     </Navbar.Collapse>

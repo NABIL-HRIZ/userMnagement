@@ -42,6 +42,7 @@ user_management/
 ## Features
 
 - Enregistrement et connexion des utilisateurs (authentification JWT)
+- Connexion avec Google (OAuth 2.0)
 - Accès basé sur les rôles (utilisateur/admin)
 - Tableau de bord administrateur : voir les utilisateurs, statistiques, supprimer des utilisateurs
 - Internationalisation (i18n) avec anglais et français
@@ -59,6 +60,7 @@ user_management/
 - bcrypt (password hashing)
 - dotenv (environment variables)
 - CORS
+- passport-google-oauth20 (Google OAuth 2.0)
 
 ### Frontend
 
@@ -103,11 +105,6 @@ user_management/
    ```bash
    npm run dev
    ```
-
-<!-- ## Deployment
-
-- Backend: Render, Railway, Heroku, etc.
-- Frontend: Vercel, Netlify, Render, etc. -->
 
 ## Author
 
